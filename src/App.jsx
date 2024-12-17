@@ -24,9 +24,12 @@ function App() {
   }, [location]);
 
   const handleLocationChange = (event) => {
+    if (event.target.value.length === 0) {
+      setWeatherData(null);
+    }
     setLotation(event.target.value);
   };
-  console.log(weatherData);
+  // console.log(weatherData);
   return (
     <>
       <div className="app-container">
@@ -41,20 +44,28 @@ function App() {
           />
         </div>
       </div>
+
       {weatherData && (
         <div className="weather-container">
-
           {weatherData.forecast.forecastday.map((day) => (
             <div className="day-container" key={day.date}>
-              <h2 className="date"> {day.date} </h2>
-              <img className="weather-icon" src={day.day.condition.icon} alt={day.day.condition.text} />
+              <h2 className="date">
+                {" "}
+                {new Date(day.date).toLocaleDateString("en-US", {
+                  weekday: "long",
+                })}
+              </h2>
+              <h3 className="date">{day.date}</h3>
+              <img
+                className="weather-icon"
+                src={day.day.condition.icon}
+                alt={day.day.condition.text}
+              />
               <p className="temparature"> {day.day.maxtemp_c} </p>
               <p className="temparature"> {day.day.condition.text} </p>
             </div>
           ))}
-
         </div>
-
       )}
     </>
   );
